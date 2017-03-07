@@ -32,12 +32,14 @@ int dlugosc_tekstu;
   action pisz_enter
    { printf("\n"); }
 
-  whitespace = [ \t\v\f] >Poczatek_Napisu %pisz_puste;
+  whitespace = [ \t\v\f] >Poczatek_Napisu %pisz_puste ;
   enter      = [\r\n] ;
-  string = (alnum | '_')+ >Poczatek_Napisu %pisz_zmienna;
-  number = ('+'|'-')?[0-9]+'.'[0-9]+( [eE] ('+'|'-')? [0-9]+ )? >Poczatek_Napisu %pisz_stala;
-  var = string | number ;
-  line = var whitespace* ( ',' %pisz_przecinek whitespace* var ) whitespace* (';' | enter) %pisz_enter ;
+  string     = (alnum | '_')+ >Poczatek_Napisu %pisz_zmienna ;
+  number     = ('+'|'-')?[0-9]+'.'[0-9]+( [eE] ('+'|'-')? [0-9]+ )? >Poczatek_Napisu %pisz_stala ;
+  var        = string | number ;
+  koniec     = (';' | enter) %pisz_enter ;
+  line       = var whitespace* ( ',' %pisz_przecinek whitespace* var ) whitespace* koniec ;
+
   main:= whitespace* ( line )* ;
 
 }%%
